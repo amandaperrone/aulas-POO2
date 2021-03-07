@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class InsertBook {
+public class FindBook {
     public static void main(String[] args) {
 
         // Conecta com o banco de dados
@@ -13,19 +13,9 @@ public class InsertBook {
         // Gerencia as entidades
         EntityManager em = factory.createEntityManager();
 
-        Book b1 = new Book();
-        /* b1.setId(1l); */
-        b1.setAuthor("Fernanda");
-        b1.setPrice(10.22);
-        b1.setTitle("The Art of Java Programming");
-
-        // Insert into Book values b1
-        em.persist(b1);
-
-        // Como haverá alteração no banco, deve-se adcionar a transação e o commit
-        em.getTransaction().begin();
-        em.getTransaction().commit();
-
+        // Book book = em.find(Book.class, 1l); // Vai no banco
+        Book book = em.getReference(Book.class, 1l); // Não fez SELECT no bd, apenas caso seja necessário
+        
         // Fecha as conexões
         em.close();
         factory.close();
