@@ -2,6 +2,8 @@ package facens.order.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,8 +34,13 @@ public class Order implements Serializable {
     @JoinColumn(name = "CUSTOMER_USER_ID")
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "ADDRESS_ID")
     private Address deliveredAddress;
+
+    @OneToMany
+    @JoinColumn(name = "ORDER_ID")
+    private List<Item> items = new ArrayList<>();
 
     public Order() {
 
@@ -116,6 +123,25 @@ public class Order implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    /*
+     * Se alguns dos métodos abaixo forem implementados, teremos uma agregação e não
+     * uma composição
+     * 
+     * public List<Item> getItems() { return items; }
+     * 
+     * public void setItems(List<Item> items) { this.items = items; }
+     * 
+     * public void addItem(Item item) { items.add(item); }
+     */
+
+    public void addItem(Integer amount, Product product) {
+        Item item = new Item();
+        item.setProduct(product);
+        item.setUnitPrice(product.getPrice());
+        item.setAmount(amount);
+        items.add(item);
     }
 
 }
