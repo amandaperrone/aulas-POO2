@@ -23,7 +23,17 @@ public class Product implements Serializable {
     private Double price;
 
     @ManyToMany
+    /*
+    @JoinTable(
+        name="TB_SUPPLIER_PRODUCTS",
+        joinColumns =  @JoinColumn(name="PRODUCTS_ID"),
+        inverseJoinColumns = @JoinColumn(name="SUPPLIER_ID")
+    ) 
+    => definir a tabela com o nome padrão e tabela com o nome que quer
+    */
     private List<Supplier> suppliers = new ArrayList<>();
+
+    private ProductType type;
 
     public Product() {}
 
@@ -60,8 +70,17 @@ public class Product implements Serializable {
         return suppliers;
     }
 
-    public void setSuppliers(Supplier supplier) {
+    public void addSuppliers(Supplier supplier) {
         this.suppliers.add(supplier);
+    }
+
+
+    public ProductType getType() {
+        return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     @Override

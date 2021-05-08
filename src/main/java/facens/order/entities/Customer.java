@@ -17,6 +17,7 @@ public class Customer extends User{
 
     private String email;
 
+    //@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name="CUSTOMER_USER_ID")
     private List<Address> addresses = new ArrayList<>();
